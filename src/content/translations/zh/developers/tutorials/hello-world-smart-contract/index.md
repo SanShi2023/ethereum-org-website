@@ -14,7 +14,7 @@ lang: zh
 published: 2021-03-31
 ---
 
-如果您是区块链开发的初学者，还不知道如何开始，或者您只是想了解怎样部署智能合约并与之进行交互，这篇教程就是为您准备的。 通过使用虚拟钱包 ([MetaMask](https://metamask.io/))、[Solidity](https://docs.soliditylang.org/en/v0.8.0/)、[Hardhat](https://hardhat.org/) 和 [Alchemy](https://alchemyapi.io/eth)（如果您不理解这些名词的含义，不用担心，后续我们会进行解释），我们将演示在 Ropsten 测试网络上创建并部署一个简单的智能合约。
+如果您是区块链开发的初学者，还不知道如何开始，或者您只是想了解怎样部署智能合约并与之进行交互，这篇教程就是为您准备的。 通过使用虚拟钱包 ([MetaMask](https://metamask.io/))、[Solidity](https://docs.soliditylang.org/en/v0.8.0/)、[Hardhat](https://hardhat.org/) 和 [Alchemy](https://alchemyapi.io/eth)（如果您不理解这些名词的含义，不用担心，后续我们会进行解释），我们将演示在 Goerli 测试网络上创建并部署一个简单的智能合约。
 
 在本教程的第 2 部分，我们将学习在智能合约部署后如何与之进行交互，第 3 部分将学习如何在 Etherscan 上发布智能合约。
 
@@ -26,13 +26,13 @@ published: 2021-03-31
 
 ## 步骤 2：创建应用程序（和应用程序接口密钥） {#step-2}
 
-创建 Alchemy 帐户后，您可以通过创建应用程序来生成应用程序接口密钥。 我们可以用它向 Ropsten 测试网发出请求。 如果您不熟悉测试网络，请查看[此页面](/developers/docs/networks/)。
+创建 Alchemy 帐户后，您可以通过创建应用程序来生成应用程序接口密钥。 我们可以用它向 Goerli 测试网发出请求。 如果您不熟悉测试网络，请查看[此页面](/developers/docs/networks/)。
 
 1.  在 Alchemy 仪表板中，将鼠标悬停在导航栏中的“应用程序”上，单击“创建应用程序”并前往此页面。
 
 ![创建应用程序 Hello world](./hello-world-create-app.png)
 
-2. 将您的应用命名为“Hello World”，提供简短的描述，选择“Staging”作为环境（用于您的应用程序簿记），选择“Ropsten”网络。
+2. 将您的应用命名为“Hello World”，提供简短的描述，选择“Staging”作为环境（用于您的应用程序簿记），选择“Goerli”网络。
 
 ![创建应用程序视图 hello world](./create-app-view-hello-world.png)
 
@@ -42,13 +42,13 @@ published: 2021-03-31
 
 我们需要一个以太坊帐户来发送和接收交易。 在本教程中，我们将使用 MetaMask，它是浏览器中的虚拟钱包，用来管理您的以太坊账户地址。 关于[交易](/developers/docs/transactions/)的详细信息。
 
-您可以点击[此处](https://metamask.io/download.html)免费下载并创建一个 MetaMask 账户。 创建账户时，或者如果您已经有一个账户时，确保切换到右上方的“Ropsten 测试网络”（这样我们就不会用实际货币进行交易）。
+您可以点击[此处](https://metamask.io/download.html)免费下载并创建一个 MetaMask 账户。 创建账户时，或者如果您已经有一个账户时，确保切换到右上方的“Goerli 测试网络”（这样我们就不会用实际货币进行交易）。
 
-![metask ropsten 示例](./metamask-ropsten-example.png)
+![metask goerli 示例](./metamask-goerli-example.png)
 
 ## 步骤 4：从水龙头添加以太币 {#step-4}
 
-为了将我们的智能合约部署到测试网络，我们需要一些虚拟以太币。 要获取以太币，您可以转到 [Ropsten 水龙头](https://faucet.dimensions.network/)并输入您的 Ropsten 帐户地址，然后点击“Send Ropsten Eth”。 由于网络原因，您接收虚拟以太币可能需要一些时间。 您应该会很快在您的 MetaMask 帐户中看到以太币！
+为了将我们的智能合约部署到测试网络，我们需要一些虚拟以太币。 要获取以太币，您可以转到 [Goerli 水龙头](https://goerlifaucet.com/)并输入您的 Goerli 帐户地址，然后点击“Send Eth”。 由于网络原因，您接收虚拟以太币可能需要一些时间。 您应该会很快在您的 MetaMask 帐户中看到以太币！
 
 ## 步骤 5：查看账户余额 {#step-5}
 
@@ -225,7 +225,7 @@ npm install dotenv --save
 您的 `.env` 文件应该类似：
 
 ```
-API_URL = "https://eth-ropsten.alchemyapi.io/v2/your-api-key"
+API_URL = "https://eth-goerli.alchemyapi.io/v2/your-api-key"
 PRIVATE_KEY = "your-metamask-private-key"
 ```
 
@@ -266,10 +266,10 @@ const { API_URL, PRIVATE_KEY } = process.env;
 */
 module.exports = {
    solidity: "0.7.3",
-   defaultNetwork: "ropsten",
+   defaultNetwork: "goerli",
    networks: {
       hardhat: {},
-      ropsten: {
+      goerli: {
          url: API_URL,
          accounts: [`0x${PRIVATE_KEY}`]
       }
@@ -330,7 +330,7 @@ const hello_world = await HelloWorld.deploy();
 我们终于准备好部署我们的智能合约啦！ 导航到命令行后运行：
 
 ```
-npx hardhat run scripts/deploy.js --network ropsten
+npx hardhat run scripts/deploy.js --network goerli
 ```
 
 您会看到类似以下所示的信息：
@@ -339,7 +339,7 @@ npx hardhat run scripts/deploy.js --network ropsten
 Contract deployed to address: 0x6cd7d44516a20882cEa2DE9f205bF401c0d23570
 ```
 
-如果我们访问 [Ropsten etherscan](https://ropsten.etherscan.io/) 并搜索我们的合约地址，应该能够看到它已经成功部署。 交易将类似以下：
+如果我们访问 [Goerli etherscan](https://goerli.etherscan.io/) 并搜索我们的合约地址，应该能够看到它已经成功部署。 交易将类似以下：
 
 ![etherscan 合约](./etherscan-contract.png)
 
@@ -351,7 +351,7 @@ Contract deployed to address: 0x6cd7d44516a20882cEa2DE9f205bF401c0d23570
 
 为了更深入了解到底发生了什么，我们转到 [Alchemy 仪表板](https://dashboard.alchemyapi.io/explorer)中的 Explorer 选项卡。 如果您有多个 Alchemy 应用程序，请确保按应用程序筛选，然后选择“Hello World”。 ![hello world 浏览器](./hello-world-explorer.png)
 
-在这里您会看到一系列的 JSON-RPC 调用，都是在我们调用 `.deploy()` 函数时，Hardhat/Ethers 替我们在后端完成的。 这里有两项重要调用，一个是 [`eth_sendRawTransaction`](https://docs.alchemyapi.io/alchemy/documentation/alchemy-api-reference/json-rpc#eth_sendrawtransaction)，这是实际将我们的合约写入 Ropsten 链的请求，另一个是 [`eth_getTransactionByHash`](https://docs.alchemyapi.io/alchemy/documentation/alchemy-api-reference/json-rpc#eth_gettransactionbyhash)，此为读取有关我们交易给定哈希值的请求（即 交易时的典型模式）。 如需了解更多关于发送交易的信息，请查看关于[使用 Web3 发送交易](/developers/tutorials/sending-transactions-using-web3-and-alchemy/)的本教程
+在这里您会看到一系列的 JSON-RPC 调用，都是在我们调用 `.deploy()` 函数时，Hardhat/Ethers 替我们在后端完成的。 这里有两项重要调用，一个是 [`eth_sendRawTransaction`](https://docs.alchemyapi.io/alchemy/documentation/alchemy-api-reference/json-rpc#eth_sendrawtransaction)，这是实际将我们的合约写入 Goerli 链的请求，另一个是 [`eth_getTransactionByHash`](https://docs.alchemyapi.io/alchemy/documentation/alchemy-api-reference/json-rpc#eth_gettransactionbyhash)，此为读取有关我们交易给定哈希值的请求（即 交易时的典型模式）。 如需了解更多关于发送交易的信息，请查看关于[使用 Web3 发送交易](/developers/tutorials/sending-transactions-using-web3-and-alchemy/)的本教程
 
 这是本教程第 1 部分的全部内容，在第 2 部分中，我们将更新我们的初始信息，从而[与我们的智能合约交互](https://docs.alchemyapi.io/alchemy/tutorials/hello-world-smart-contract#part-2-interact-with-your-smart-contract)；在第 3 部分，我们将[在 Etherscan 上发布我们的智能合约](https://docs.alchemyapi.io/alchemy/tutorials/hello-world-smart-contract#optional-part-3-publish-your-smart-contract-to-etherscan)，使得每个人都会知道如何与之交互。
 
